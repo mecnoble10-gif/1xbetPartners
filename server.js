@@ -68,10 +68,12 @@ const sessionMiddleware = session({
   secret: SESSION_SECRET,
   resave: false,
   saveUninitialized: false,
+  proxy: true,
   cookie: {
     httpOnly: true,
     sameSite: "lax",
-    secure: process.env.NODE_ENV === "production",
+    secure: "auto",
+    path: "/",
     maxAge: 7 * 24 * 60 * 60 * 1000
   }
 });

@@ -1,0 +1,289 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Administration - Assistance</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+:root{--blue:#1769ff;--navy:#101d3a;--muted:#71809b;--bg:#f4f7fc;--border:#e8edf5}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Poppins,sans-serif;background:var(--bg);color:var(--navy);min-height:100vh}
+button,input,textarea{font:inherit}button{cursor:pointer;border:0}
+.hidden{display:none!important}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:11px 15px;border-radius:10px;font-size:11px;font-weight:600}
+.btn svg{width:16px}
+.primary{background:linear-gradient(135deg,#2678ff,#1052d4);color:white}
+.light{background:#eef4ff;color:var(--blue)}
+.danger{background:#fff0f0;color:#d04444}
+.login-page{min-height:100vh;display:grid;place-items:center;padding:18px;background:radial-gradient(circle at 15% 15%,#ffffff25,transparent 30%),linear-gradient(135deg,#092d79,#1769ff 60%,#3989ff)}
+.login-card{width:100%;max-width:420px;background:white;border-radius:22px;padding:32px;box-shadow:0 30px 80px #041b4c55}
+.logo{width:53px;height:53px;border-radius:16px;background:linear-gradient(135deg,#287bff,#0648c8);color:white;display:grid;place-items:center;margin-bottom:20px}
+.login-card h1{font-size:23px}.sub{font-size:11px;color:var(--muted);line-height:1.8;margin:8px 0 23px}
+.field{margin-bottom:16px}.field label{display:block;font-size:11px;font-weight:600;margin-bottom:7px}
+.field input{width:100%;padding:13px;border:1px solid var(--border);border-radius:10px;font-size:12px;outline:none}
+.field input:focus{border-color:#5b95ff;box-shadow:0 0 0 3px #1769ff16}
+.full{width:100%}.error{font-size:11px;color:#d33;margin-top:12px}
+.top{height:70px;background:white;display:flex;align-items:center;justify-content:space-between;padding:0 5%;box-shadow:0 3px 20px #1428500a}
+.brand{display:flex;align-items:center;gap:10px;font-size:16px;font-weight:800}
+.brand .logo{width:38px;height:38px;margin:0;border-radius:12px}
+.container{max-width:1250px;margin:auto;padding:30px 18px 60px}
+.heading{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:23px}
+.heading h1{font-size:23px}.heading p{font-size:11px;color:var(--muted);margin-top:5px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:18px}
+.stat,.panel{background:white;border:1px solid var(--border);border-radius:16px;box-shadow:0 12px 35px #1939690b}
+.stat{padding:18px}.stat span{font-size:10px;color:var(--muted)}.stat strong{display:block;font-size:24px;margin-top:7px}
+.tabs{display:flex;gap:8px;margin-bottom:16px}
+.tab{padding:10px 15px;border-radius:10px;background:white;color:var(--muted);font-size:11px;font-weight:600}
+.tab.active{background:#1769ff;color:white}
+.workspace{display:grid;grid-template-columns:340px 1fr;gap:17px}
+.panel{overflow:hidden}
+.panel-head{padding:17px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
+.panel-head h2{font-size:13px}.panel-head span{font-size:10px;color:var(--muted)}
+.list{max-height:600px;overflow-y:auto}
+.item{padding:15px 17px;border-bottom:1px solid #f0f3f8;cursor:pointer}
+.item:hover,.item.active{background:#eef5ff}
+.item strong{font-size:11px;display:block}
+.item small{font-size:9px;color:var(--muted);display:block;margin-top:5px}
+.item p{font-size:10px;margin-top:7px;color:#51617b}
+.pill{font-size:9px;background:#e8f7ef;color:#16834c;border-radius:20px;padding:4px 8px}
+.pill.closed{background:#f0f1f4;color:#687386}
+.chat{display:flex;flex-direction:column;min-height:650px}
+.chat-head{padding:17px 19px;border-bottom:1px solid var(--border)}
+.chat-head h2{font-size:14px}.chat-head p{font-size:10px;color:var(--muted);margin-top:5px}
+.actions{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+.messages{flex:1;min-height:360px;max-height:490px;overflow-y:auto;padding:20px;background:#f8faff}
+.bubble{max-width:78%;padding:11px 14px;border-radius:13px;font-size:11px;line-height:1.7;margin-bottom:12px;overflow-wrap:anywhere}
+.bubble.user{background:white;border:1px solid var(--border);border-bottom-left-radius:4px}
+.bubble.admin{background:#1769ff;color:white;margin-left:auto;border-bottom-right-radius:4px}
+.bubble small{display:block;opacity:.65;font-size:9px;margin-top:5px}
+.reply{display:flex;gap:9px;padding:14px;border-top:1px solid var(--border)}
+.reply textarea{flex:1;min-width:0;height:46px;resize:vertical;border:1px solid var(--border);border-radius:10px;padding:12px;font-size:11px;outline:none}
+.reply button{width:48px}
+.empty{padding:35px 18px;text-align:center;color:var(--muted);font-size:11px;line-height:1.8}
+.status{font-size:10px;padding:0 15px 10px}
+@media(max-width:800px){.workspace{grid-template-columns:1fr}.list{max-height:280px}.chat{min-height:570px}}
+@media(max-width:550px){.container{padding:20px 12px}.top{padding:0 13px}.brand{font-size:13px}.stats{gap:7px}.stat{padding:12px}.stat strong{font-size:20px}.stat span{font-size:9px}.heading h1{font-size:20px}.bubble{max-width:90%}}
+</style>
+</head>
+<body>
+
+<section class="login-page" id="loginPage">
+  <form class="login-card" id="loginForm">
+    <div class="logo"><i data-lucide="shield-check"></i></div>
+    <h1>Administration</h1>
+    <p class="sub">Connectez-vous pour consulter et gérer toutes les conversations.</p>
+    <div class="field"><label>Mot de passe administrateur</label><input id="adminPassword" type="password" autocomplete="current-password" required placeholder="Votre mot de passe"></div>
+    <button class="btn primary full" type="submit">Se connecter <i data-lucide="arrow-right"></i></button>
+    <div id="loginError" class="error"></div>
+  </form>
+</section>
+
+<div id="dashboard" class="hidden">
+  <header class="top">
+    <div class="brand"><span class="logo"><i data-lucide="headset"></i></span>Administration</div>
+    <button class="btn danger" id="logout"><i data-lucide="log-out"></i> Déconnexion</button>
+  </header>
+
+  <main class="container">
+    <div class="heading">
+      <div><h1>Tableau de bord</h1><p>Gérez les utilisateurs et leurs conversations.</p></div>
+      <button class="btn light" id="refresh"><i data-lucide="refresh-cw"></i> Actualiser</button>
+    </div>
+
+    <section class="stats">
+      <article class="stat"><span>Utilisateurs inscrits</span><strong id="userCount">0</strong></article>
+      <article class="stat"><span>Conversations</span><strong id="conversationCount">0</strong></article>
+      <article class="stat"><span>Conversations ouvertes</span><strong id="openCount">0</strong></article>
+    </section>
+
+    <div class="tabs">
+      <button class="tab active" id="conversationsTab">Conversations</button>
+      <button class="tab" id="usersTab">Utilisateurs</button>
+    </div>
+
+    <section id="conversationView" class="workspace">
+      <aside class="panel">
+        <div class="panel-head"><h2>Boîte de réception</h2><span id="listCount">0</span></div>
+        <div class="list" id="conversationList"><div class="empty">Chargement...</div></div>
+      </aside>
+
+      <section class="panel chat">
+        <div class="empty" id="welcome" style="flex:1;display:grid;place-items:center">
+          <div><i data-lucide="messages-square"></i><p>Sélectionnez une conversation pour lire et répondre.</p></div>
+        </div>
+        <div id="chatContent" class="hidden" style="flex:1;flex-direction:column">
+          <div class="chat-head">
+            <h2 id="chatTitle">Conversation</h2>
+            <p id="chatInfo"></p>
+            <div class="actions">
+              <button class="btn light" id="reload"><i data-lucide="refresh-cw"></i> Actualiser</button>
+              <button class="btn danger" id="closeBtn">Clôturer</button>
+              <button class="btn light hidden" id="reopenBtn">Rouvrir</button>
+            </div>
+          </div>
+          <div class="messages" id="messages"></div>
+          <form class="reply" id="replyForm">
+            <textarea id="replyInput" maxlength="2000" required placeholder="Écrire une réponse..."></textarea>
+            <button class="btn primary" type="submit"><i data-lucide="send"></i></button>
+          </form>
+          <div class="status" id="replyStatus"></div>
+        </div>
+      </section>
+    </section>
+
+    <section id="usersView" class="panel hidden">
+      <div class="panel-head"><h2>Utilisateurs inscrits</h2><span id="usersTotal">0</span></div>
+      <div class="list" id="usersList"></div>
+    </section>
+  </main>
+</div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script>
+lucide.createIcons();
+let socket=null;
+let allConversations=[];
+let selectedId=null;
+let selectedStatus="open";
+
+async function api(url,options={}){
+  const r=await fetch(url,{...options,headers:{"Content-Type":"application/json",...(options.headers||{})}});
+  const d=await r.json();
+  if(!r.ok)throw new Error(d.error||"Erreur");
+  return d;
+}
+function showError(message){document.getElementById("loginError").textContent=message}
+async function enterAdmin(){
+  await api("/api/auth/me");
+  document.getElementById("loginPage").classList.add("hidden");
+  document.getElementById("dashboard").classList.remove("hidden");
+  socket=io();
+  socket.on("conversation:updated",()=>refreshData());
+  await refreshData();
+}
+document.getElementById("loginForm").onsubmit=async e=>{
+  e.preventDefault();
+  try{
+    await api("/api/admin/login",{method:"POST",body:JSON.stringify({password:document.getElementById("adminPassword").value})});
+    document.getElementById("adminPassword").value="";
+    await enterAdmin();
+  }catch(err){showError(err.message)}
+};
+document.getElementById("logout").onclick=async()=>{
+  await api("/api/auth/logout",{method:"POST"});
+  location.reload();
+};
+
+async function refreshData(){
+  const d=await api("/api/admin/conversations");
+  allConversations=d.conversations;
+  document.getElementById("userCount").textContent=d.userCount;
+  document.getElementById("conversationCount").textContent=allConversations.length;
+  document.getElementById("openCount").textContent=allConversations.filter(c=>c.status==="open").length;
+  document.getElementById("listCount").textContent=allConversations.length+" discussion(s)";
+  renderConversations();
+  if(selectedId&&allConversations.some(c=>c.id===selectedId))await loadConversation();
+}
+function renderConversations(){
+  const list=document.getElementById("conversationList");
+  list.innerHTML="";
+  if(!allConversations.length){list.innerHTML='<div class="empty">Aucune conversation reçue.</div>';return}
+  allConversations.forEach(c=>{
+    const item=document.createElement("div");
+    item.className="item"+(c.id===selectedId?" active":"");
+    const title=document.createElement("strong");title.textContent=c.subject;
+    const email=document.createElement("small");email.textContent=c.email;
+    const detail=document.createElement("p");detail.textContent=c.messages.length?c.messages[c.messages.length-1].message:"Aucun message";
+    const pill=document.createElement("span");pill.className="pill"+(c.status==="closed"?" closed":"");pill.textContent=c.status==="closed"?"Clôturée":"Ouverte";
+    item.append(title,email,detail,pill);
+    item.onclick=()=>selectConversation(c.id);
+    list.append(item);
+  });
+}
+async function selectConversation(id){
+  selectedId=id;
+  document.getElementById("welcome").classList.add("hidden");
+  document.getElementById("chatContent").classList.remove("hidden");
+  document.getElementById("chatContent").style.display="flex";
+  renderConversations();
+  await loadConversation();
+}
+async function loadConversation(){
+  if(!selectedId)return;
+  const d=await api("/api/admin/conversations/"+encodeURIComponent(selectedId));
+  const c=d.conversation;
+  selectedStatus=c.status;
+  document.getElementById("chatTitle").textContent=c.subject;
+  document.getElementById("chatInfo").textContent=c.email+" • "+c.messages.length+" message(s)";
+  document.getElementById("closeBtn").classList.toggle("hidden",c.status==="closed");
+  document.getElementById("reopenBtn").classList.toggle("hidden",c.status!=="closed");
+  document.getElementById("replyInput").disabled=c.status==="closed";
+  document.querySelector("#replyForm button").disabled=c.status==="closed";
+  const box=document.getElementById("messages");box.innerHTML="";
+  c.messages.forEach(m=>{
+    const b=document.createElement("div");b.className="bubble "+(m.sender==="admin"?"admin":"user");
+    const content=document.createElement("span");content.textContent=m.message;
+    const date=document.createElement("small");date.textContent=(m.sender==="admin"?"Vous":"Utilisateur")+" • "+new Date(m.createdAt).toLocaleString("fr-FR");
+    b.append(content,date);box.append(b);
+  });
+  box.scrollTop=box.scrollHeight;
+}
+document.getElementById("replyForm").onsubmit=async e=>{
+  e.preventDefault();
+  if(!selectedId)return;
+  const input=document.getElementById("replyInput");
+  const message=input.value.trim();if(!message)return;
+  try{
+    await api("/api/admin/conversations/"+encodeURIComponent(selectedId)+"/messages",{method:"POST",body:JSON.stringify({message})});
+    input.value="";document.getElementById("replyStatus").textContent="Réponse envoyée.";
+    await loadConversation();await refreshData();
+  }catch(err){document.getElementById("replyStatus").textContent=err.message}
+};
+document.getElementById("closeBtn").onclick=async()=>{
+  if(!selectedId||!confirm("Clôturer cette conversation ?"))return;
+  try{await api("/api/admin/conversations/"+encodeURIComponent(selectedId)+"/close",{method:"POST"});await refreshData()}
+  catch(e){alert(e.message)}
+};
+document.getElementById("reopenBtn").onclick=async()=>{
+  if(!selectedId)return;
+  try{await api("/api/admin/conversations/"+encodeURIComponent(selectedId)+"/reopen",{method:"POST"});await refreshData()}
+  catch(e){alert(e.message)}
+};
+document.getElementById("reload").onclick=loadConversation;
+document.getElementById("refresh").onclick=refreshData;
+
+document.getElementById("conversationsTab").onclick=()=>{
+  document.getElementById("conversationView").classList.remove("hidden");
+  document.getElementById("usersView").classList.add("hidden");
+  document.getElementById("conversationsTab").classList.add("active");
+  document.getElementById("usersTab").classList.remove("active");
+};
+document.getElementById("usersTab").onclick=async()=>{
+  document.getElementById("conversationView").classList.add("hidden");
+  document.getElementById("usersView").classList.remove("hidden");
+  document.getElementById("usersTab").classList.add("active");
+  document.getElementById("conversationsTab").classList.remove("active");
+  try{
+    const d=await api("/api/admin/users");
+    const list=document.getElementById("usersList");list.innerHTML="";
+    document.getElementById("usersTotal").textContent=d.users.length+" utilisateur(s)";
+    d.users.forEach(u=>{
+      const item=document.createElement("div");item.className="item";
+      const name=document.createElement("strong");name.textContent=u.email;
+      const date=document.createElement("small");date.textContent="Inscrit le "+new Date(u.createdAt).toLocaleString("fr-FR");
+      item.append(name,date);list.append(item);
+    });
+  }catch(e){alert(e.message)}
+};
+
+api("/api/auth/me").then(d=>{
+  if(d.role==="admin")enterAdmin();
+}).catch(()=>{});
+</script>
+</body>
+</html>
